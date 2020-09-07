@@ -9,6 +9,32 @@
  * The app navigation resides in ./app/navigation, so head over there
  * if you're interested in adding screens and navigators.
  */
+import 'reflect-metadata'
+import {container, inject, injectable} from 'tsyringe'
+
+@injectable()
+class Animal {
+  constructor() {
+  }
+  makeSound (sound: string) {
+    console.log(sound)
+  }
+}
+@injectable()
+class Sheep {
+  _animal;
+  constructor(animal: Animal) {
+    this._animal = animal
+  }
+
+  beeeeh () {
+    console.log("bleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeh")
+  }
+}
+
+console.log(container.resolve(Sheep).beeeeh())
+
+
 import "./i18n"
 import "./utils/ignore-warnings"
 import React, { useState, useEffect, useRef } from "react"
@@ -24,13 +50,11 @@ import {
 } from "./navigation"
 import { RootStore, RootStoreProvider, setupRootStore } from "./models"
 
-// This puts screens in a native ViewController or Activity. If you want fully native
-// stack navigation, use `createNativeStackNavigator` in place of `createStackNavigator`:
-// https://github.com/kmagiera/react-native-screens#using-native-stack-navigator
 import { enableScreens } from "react-native-screens"
 enableScreens()
 
 export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
+
 
 /**
  * This is the root component of our app.
